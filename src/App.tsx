@@ -6,7 +6,6 @@ import { useContext } from "react";
 
 const AppContent = () => {
   const auth = useContext(AuthContext);
-
   return auth.isLoggedin ? <Home /> : <EmailOtpLogin />;
 };
 
