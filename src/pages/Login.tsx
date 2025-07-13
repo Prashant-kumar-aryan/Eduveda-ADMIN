@@ -1,9 +1,15 @@
 import { useContext, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthProvider";
+import { Navigate } from "react-router-dom";
 
 const EmailOtpLogin = () => {
-  const { loginWithOtp, verifyOtp } = useContext(AuthContext);
+  const { loginWithOtp, verifyOtp, isLoggedin, loading } =
+    useContext(AuthContext);
+
+  if (loading) return null; // or show loader
+
+  if (isLoggedin) return <Navigate to="/courses" replace />;
 
   const emailRef = useRef<HTMLInputElement>(null);
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);

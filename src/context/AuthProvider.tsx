@@ -3,18 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import toast from "react-hot-toast";
 import { BASE_URL } from "../BASE_URL";
 
-interface Iuser {
-  isLoggedin: boolean;
-  token: string | null;
-  refreshToken: string;
-  name: string;
-  role: string;
-  email?: string;
-  phone?: string;
-  loginWithOtp: (email: string) => Promise<string | null>;
-  verifyOtp: (loginId: string, otp: string) => Promise<boolean>;
-}
-
+// Define the shape of your JWT payload
 interface JWTPayload {
   exp: number;
   name: string;
@@ -23,7 +12,22 @@ interface JWTPayload {
   phone?: string;
 }
 
-const AuthContext = createContext<Iuser>({
+// Define the shape of the AuthContext
+interface IAuthContext {
+  isLoggedin: boolean;
+  token: string | null;
+  refreshToken: string;
+  name: string;
+  role: string;
+  email?: string;
+  phone?: string;
+  loading: boolean;
+  loginWithOtp: (email: string) => Promise<string | null>;
+  verifyOtp: (loginId: string, otp: string) => Promise<boolean>;
+}
+
+// Create context with default values
+export const AuthContext = createContext<IAuthContext>({
   isLoggedin: false,
   token: null,
   refreshToken: "",
@@ -31,10 +35,12 @@ const AuthContext = createContext<Iuser>({
   role: "",
   email: "",
   phone: "",
+  loading: true,
   loginWithOtp: async () => null,
   verifyOtp: async () => false,
 });
 
+// Utility to check if token is still valid
 const isTokenValid = (token: string): boolean => {
   try {
     const decoded: JWTPayload = jwtDecode(token);
@@ -44,19 +50,21 @@ const isTokenValid = (token: string): boolean => {
   }
 };
 
+// AuthProvider component
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [email, setEmail] = useState<string | undefined>("");
   const [phone, setPhone] = useState<string | undefined>("");
-  const [refreshToken, setRefreshToken] = useState(""); // optional: depends on your API
+  const [refreshToken, setRefreshToken] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const saved = localStorage.getItem("eduVedaAdmin");
+
     if (saved && isTokenValid(saved)) {
       setToken(saved);
-
       try {
         const decoded: JWTPayload = jwtDecode(saved);
         setName(decoded.name);
@@ -70,6 +78,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem("eduVedaAdmin");
       setToken(null);
     }
+
+    setLoading(false); // 👈 done checking
   }, []);
 
   const loginWithOtp = async (email: string) => {
@@ -135,6 +145,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         role,
         email,
         phone,
+        loading,
         loginWithOtp,
         verifyOtp,
       }}
@@ -144,5 +155,4 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export { AuthContext };
 export default AuthProvider;
