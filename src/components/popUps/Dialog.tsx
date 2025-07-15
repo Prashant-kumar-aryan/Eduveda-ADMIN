@@ -4,14 +4,15 @@ import React from "react";
 interface dialogProps {
   children: React.ReactNode;
   toggleDialog: () => void;
+  className: string;
 }
 
 const Dialog = forwardRef<HTMLDialogElement, dialogProps>(
-  ({ children, toggleDialog }, ref) => {
+  ({ children, toggleDialog, className }, ref) => {
     return (
       <dialog
-        className="mx-auto w-full max-w-3xl m-10 rounded-2xl"
         ref={ref}
+        className={className}
         onClick={(e) => {
           if (e.currentTarget === e.target) {
             toggleDialog();

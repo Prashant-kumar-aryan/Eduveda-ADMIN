@@ -67,10 +67,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setToken(saved);
       try {
         const decoded: JWTPayload = jwtDecode(saved);
-        setName(decoded.name);
-        setRole(decoded.role);
-        setEmail(decoded.email);
-        setPhone(decoded.phone);
+        if (decoded.name) setName(decoded.name);
+        if (decoded.role) setRole(decoded.role);
+        if (decoded.email) setEmail(decoded.email);
+        if (decoded.phone) setPhone(decoded.phone);
       } catch (err) {
         console.error("Failed to decode token", err);
       }

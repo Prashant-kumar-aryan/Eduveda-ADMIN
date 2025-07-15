@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Page1 from "./createCourse/Page1";
-import useMultiForm from "../hooks/useMultiForm";
-import Page2 from "./createCourse/Page2";
-import Page3 from "./createCourse/Page3";
+import Page1 from "../createCourse/Page1";
+import useMultiForm from "../../hooks/useMultiForm";
+import Page2 from "../createCourse/Page2";
+import Page3 from "../createCourse/Page3";
 
 type page1Data = {
   title: string;
@@ -108,9 +108,9 @@ const CreateCourseDialog = ({ toggleDialog }: { toggleDialog: () => void }) => {
     }
   };
   return (
-    <div className=" mx-auto w-full max-w-3xl h-[90vh] shadow-2xl bg-white rounded overflow-hidden">
+    <div className="mx-auto w-full max-w-3xl shadow-2xl bg-white rounded  flex flex-col justify-center items-center overflow-hidden">
       {/* Fixed Header */}
-      <header className="absolute top-0 left-0 w-full flex justify-between items-center px-6 py-4 border-b border-gray-300 bg-white z-10">
+      <header className=" w-full flex justify-between items-center px-6 py-4 border-b border-gray-300 bg-white z-10">
         <h2 className="text-2xl font-bold text-gray-700">Create Course</h2>
         <button
           onClick={toggleDialog}
@@ -121,15 +121,12 @@ const CreateCourseDialog = ({ toggleDialog }: { toggleDialog: () => void }) => {
       </header>
 
       {/* Scrollable content */}
-      <form
-        onSubmit={handleSubmit}
-        className="mt-[50px] mb-auto h-[78vh] flex flex-col"
-      >
+      <form onSubmit={handleSubmit} className="w-full flex flex-col">
         {/* Scrollable area */}
         <div className="flex-1 overflow-y-auto px-6 py-4">{step}</div>
 
         {/* Fixed Footer */}
-        <footer className="absolute bottom-0 left-0 w-full flex items-center justify-between px-6 py-4 border-t border-gray-300 bg-white z-10 shadow-md">
+        <footer className="w-full flex items-center justify-between px-6 py-4 border-t border-gray-300 bg-white z-10 shadow-md">
           {/* Step Indicator */}
           <div className="text-sm text-gray-500">
             Step <span className="font-semibold">{currentStep + 1}</span> of{" "}

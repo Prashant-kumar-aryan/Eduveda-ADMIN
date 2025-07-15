@@ -36,14 +36,20 @@ const DeleteCourseDialog = ({
 
       <div className="flex justify-end gap-4 pt-4">
         <button
-          onClick={onCancel}
+          onClick={() => {
+            setInput("");
+            onCancel();
+          }}
           className="px-5 py-2 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition"
         >
           Cancel
         </button>
         <button
           disabled={!isMatch}
-          onClick={onConfirm}
+          onClick={() => {
+            setInput("");
+            onConfirm();
+          }}
           className={`px-5 py-2 rounded-lg transition text-white ${
             isMatch
               ? "bg-red-600 hover:bg-red-700"

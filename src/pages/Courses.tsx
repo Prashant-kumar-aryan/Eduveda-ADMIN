@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import CreatePopUp from "../components/CreateCourseDialog";
-import Dialog from "../components/Dialog";
+import CreatePopUp from "../components/popUps/CreateCoursePopUp";
+import Dialog from "../components/popUps/Dialog";
 import axios from "axios";
 import { BASE_URL } from "../BASE_URL";
-import CourseCard from "../components/CourseCard";
+import CourseCard from "../components/cards/CourseCard";
 import Spinner from "../components/Spinner";
 import toast from "react-hot-toast";
 
@@ -49,31 +49,38 @@ const Courses = () => {
 
   return (
     <>
-      <Dialog ref={dialogref} toggleDialog={toggleDialog}>
+      <Dialog
+        ref={dialogref}
+        toggleDialog={toggleDialog}
+        className={`mx-auto  w-full max-w-3xl mt-5 rounded-sm`}
+      >
         <CreatePopUp toggleDialog={toggleDialog} />
       </Dialog>
 
-      <div>
-        <header className="flex gap-5 justify-center items-center text-3xl font-bold border-b-1 border-gray-300 text-center mt-10 bg-gradient-to-r from-blue-500 to-purple-500 text-white p-4 rounded-lg shadow-lg">
-          <h1>Welcome Boss</h1>
+      <div className="min-h-screen bg-gray-50 text-slate-800">
+        <header
+          className="text-2xl font-bold shadow
+         text-center p-6  text-indigo-400"
+        >
+          -Welcome Boss-
         </header>
 
         <section className="px-10">
           <button
-            className="bg-amber-400 rounded-2xl px-8 py-4 text-white font-semibold text-lg mt-10 block shadow-lg hover:bg-amber-500 transition-colors duration-300"
+            className="bg-indigo-400 hover:shadow-2xl hover:bg-indigo-500 transition-colors duration-300 text-white font-semibold text-md mt-10 rounded-full px-6 py-3 shadow-md"
             onClick={toggleDialog}
           >
-            create course +
+            + Create Course
           </button>
         </section>
 
-        <section className="px-10 mb-10">
-          <h2 className="text-2xl font-semibold mt-10">All Courses</h2>
+        <section className="px-10 pb-10">
+          <h2 className="text-2xl font-semibold mt-10 mb-4">All Courses</h2>
 
           {loading ? (
             <Spinner />
           ) : (
-            <ul className="mt-5 space-y-4">
+            <ul className="flex gap-4 flex-wrap">
               {courses.map((course) => (
                 <CourseCard key={course.id} course={course} />
               ))}
